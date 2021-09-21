@@ -48,9 +48,9 @@
                 </div>
               </li>
             </ul>
-            <div class="item__add-delete">
-              <h3 class="item__add">Add task</h3>
-              <h3 class="item__delete">Delete all tasks</h3>
+            <div class="buttons__add-delete">
+              <button class="button__add-delete button__add">Add task</button>
+              <button class="button__add-delete button__delete">Delete all tasks</button>
             </div>
           </div>
           <div class="row-block__item">
@@ -77,8 +77,8 @@
                 </div>
               </li>
             </ul>
-            <div class="item__add-delete item__add-delete_progress">
-                          <h3 class="item_delete ">Delete all tasks</h3>
+            <div class="buttons__add-delete buttons__add-delete_progress">
+                          <button class="button__add-delete button_delete ">Delete all tasks</button>
             </div>
           </div>
           <div class="row-block__item">
@@ -106,12 +106,32 @@
                 </div>
               </li>
             </ul>
-            <div class="item__add-delete item__add-delete_progress">
+            <div class="buttons__add-delete buttons__add-delete_progress">
              
-              <h3 class="item__delete">Delete all tasks</h3>
+              <button class="button__add-delete button__delete">Delete all tasks</button>
             </div>
           </div>
         </div>
+      </div>
+      <div class="form">
+        <div class="form__text">
+          <div class="form__task form__task_title">
+        <label for="Title">Title</label>
+<input type="text" id="Title" name="title-task" required class="form__input form__input_text">
+</div>
+<div class=" form__task form__task_description">
+<label for="Description">description</label>
+<input type="text" id="Description" name="description-task" required class="form__input form__input_description">
+</div>
+<div class="form__task form__task_user">
+<label for="User">user</label>
+<input type="text" id="User" name="user-task" required class="form__input form__input_user">
+</div>
+</div>
+<div class="form__buttons">
+  <button class="form__button form__button_add">Add task</button>
+  <button class="form__button form__button_delete">Delete task</button>
+</div>
       </div>
     </section>
   </body>

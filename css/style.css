@@ -125,6 +125,7 @@ body {
       -ms-flex-direction: column;
           flex-direction: column;
   background-color: #f0f5fa;
+  border-radius: 5px;
   margin: 20px;
   margin-top: 11px;
   margin-bottom: 15px;
@@ -203,29 +204,38 @@ body {
           flex: 1 0 auto;
 }
 
-.item__add-delete {
+.buttons__add-delete {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  margin: 15px 20px;
-  font-size: 20px;
-  line-height: 23px;
-  text-align: center;
 }
 @media (max-width: 768px) {
-  .item__add-delete {
+  .buttons__add-delete {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
-    font-size: 18px;
   }
 }
 
-.item__add::before {
+.button__add-delete {
+  border: none;
+  background: #c4c4c4;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: center;
+  margin: 15px 20px;
+}
+@media (max-width: 768px) {
+  .button__add-delete {
+    font-size: 15px;
+  }
+}
+
+.button__add::before {
   content: "";
   background: url(../img/plus-solid.svg) no-repeat;
   background-size: contain;
@@ -235,12 +245,97 @@ body {
   height: 15px;
 }
 
-.item__add-delete_progress {
+.buttons__add-delete_progress {
   display: block;
   text-align: end;
 }
 @media (max-width: 768px) {
-  .item__add-delete_progress {
+  .buttons__add-delete_progress {
     text-align: center;
   }
+}
+
+.form {
+  max-width: 600px;
+  background: #f0f5fa;
+  border-radius: 5px;
+}
+
+.form__text {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 0px 11px 10px 22px;
+}
+
+.form__task {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  max-width: 100%;
+  margin-top: 10px;
+}
+
+.form__input {
+  background: #f3f0f0;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 auto;
+          flex: 1 0 auto;
+  height: 52px;
+  border: 1px solid #5d5fef;
+}
+
+.form__task_title {
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.form__task_description {
+  font-size: 18px;
+  line-height: 21px;
+}
+
+.form__task_user {
+  font-size: 18px;
+  line-height: 21px;
+}
+
+.form__input_description {
+  height: 96px;
+}
+
+label {
+  margin-right: 3.333%;
+  width: 112px;
+}
+
+.form__buttons {
+  text-align: center;
+}
+
+.form__button {
+  background: #c4c4c4;
+  font-size: 24px;
+  line-height: 28px;
+  margin-bottom: 16px;
+  border: none;
+  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  margin-right: 47px;
+}
+.form__button:last-child {
+  margin-right: 0px;
+}
+
+.form__button_add {
+  padding: 6px 43px;
+}
+
+.form__button_delete {
+  padding: 7px 34px 5px 25px;
 }
