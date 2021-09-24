@@ -25,29 +25,7 @@
         <div class="main__row-block">
           <div class="row-block__item">
             <ul class="item__list">
-              <li class="list__task list__task_pink">
-                <h2 class="task__title">Title</h2>
-                <div class="task__desc">description</div>
-                <div class="tasc__footer">
-                  <div class="footer__user">user/date</div>
-                  <div class="footer__transform">
-                    <img class="img-trans" src="./img/transform.png"></img>
-                    <img class="img-delete" src="./img/delete.png"></img>
-                  </div>
-                </div>
-              </li>
-              <li class="list__task list__task_pink">
-                <h2 class="task__title">Title</h2>
-                <div class="task__desc">description</div>
-                <div class="tasc__footer">
-                  <div class="footer__user">user/date</div>
-                  <div class="footer__transform">
-                    <img class="img-trans" src="./img/transform.png"></img>
-                    <img class="img-delete" src="./img/delete.png"></img>
-                  </div>
-                </div>
-              </li>
-            </ul>
+                          </ul>
             <div class="buttons__add-delete">
               <button class="button__add-delete button__add">Add task</button>
               <button class="button__add-delete button__delete">Delete all tasks</button>
@@ -55,21 +33,21 @@
           </div>
           <div class="row-block__item">
             <ul class="item__list">
-              <li class="list__task list__task_green">
-                <h2 class="task__title">Title</h2>
-                <div class="task__desc">description</div>
-                <div class="tasc__footer">
-                  <div class="footer__user">user/date</div>
+              <li class="list__task list__task_progress">
+                <h2 class="task__title task__title_progress">Title</h2>
+                <div class="task__desc task__desc_progress">description</div>
+                <div class="tasc__footer tasc__footer_progress">
+                  <div class="footer__user footer__user_progress">user/date</div>
                   <div class="footer__transform">
                     <img class="img-delete" src="./img/delete.png"></img>
                   </div>
                 </div>
               </li>
-              <li class="list__task list__task_green">
-                <h2 class="task__title">Title</h2>
-                <div class="task__desc">description</div>
-                <div class="tasc__footer">
-                  <div class="footer__user">user/date</div>
+              <li class="list__task list__task_progress">
+                <h2 class="task__title task__title_progress">Title</h2>
+                <div class="task__desc task__desc_progress">description</div>
+                <div class="tasc__footer tasc__footer_progress">
+                  <div class="footer__user footer__user_progress">user/date</div>
                   <div class="footer__transform">
                    
                     <img class="img-delete" src="./img/delete.png"></img>
@@ -83,21 +61,21 @@
           </div>
           <div class="row-block__item">
             <ul class="item__list">
-              <li class="list__task list__task_violet ">
-                <h2 class="task__title">Title</h2>
-                <div class="task__desc">description</div>
-                <div class="tasc__footer">
-                  <div class="footer__user">user/date</div>
+              <li class="list__task list__task_done ">
+                <h2 class="task__title task__title_done">Title</h2>
+                <div class="task__desc task__desc_done">description</div>
+                <div class="tasc__footer tasc__footer_done">
+                  <div class="footer__user footer__user_done">user/date</div>
                   <div class="footer__transform">
                     
                     <img class="img-delete" src="./img/delete.png"></img>
                   </div>
                 </div>
               </li>
-              <li class="list__task list__task_violet">
-                <h2 class="task__title">Title</h2>
-                <div class="task__desc">description</div>
-                <div class="tasc__footer">
+              <li class="list__task list__task_done">
+                <h2 class="task__title task__title_done">Title</h2>
+                <div class="task__desc task__desc_done">description</div>
+                <div class="tasc__footer tasc__footer_done">
                   <div class="footer__user">user/date</div>
                   <div class="footer__transform">
                     
@@ -113,19 +91,20 @@
           </div>
         </div>
       </div>
+      <div class="module-window">
       <div class="form">
         <div class="form__text">
           <div class="form__task form__task_title">
         <label for="Title">Title</label>
-<input type="text" id="Title" name="title-task" required class="form__input form__input_text">
+<input type="text" id="Title" name="title-task"   tabindex = "0" class="form__input form__input_text">
 </div>
 <div class=" form__task form__task_description">
 <label for="Description">description</label>
-<input type="text" id="Description" name="description-task" required class="form__input form__input_description">
+<textarea id="Description" name="description-task"   tabindex = "0"  class="form__input form__input_description"></textarea>
 </div>
 <div class="form__task form__task_user">
 <label for="User">user</label>
-<input type="text" id="User" name="user-task" required class="form__input form__input_user">
+<input type="text" id="User" name="user-task"  tabindex = "0"  class="form__input form__input_user">
 </div>
 </div>
 <div class="form__buttons">
@@ -133,6 +112,22 @@
   <button class="form__button form__button_delete">Delete task</button>
 </div>
       </div>
+      <div class="wrapper-form"></div> 
+    </div>
     </section>
+    <div class="pattern_container">
+      <li class="list__task list__task_do li-pattern">
+        <h2 class="task__title task__title_do"></h2>
+        <div class="task__desc task__desc_do"></div>
+        <div class="tasc__footer tasc__footer_do">
+          <div class="footer__user"></div>
+          <div class="footer__transform">
+            <img class="img-trans" src="./img/transform.png"></img>
+            <img class="img-delete" src="./img/delete.png"></img>
+          </div>
+        </div>
+      </li>
+    </div>
+    <script src="./js/index.js"></script>
   </body>
 </html>
