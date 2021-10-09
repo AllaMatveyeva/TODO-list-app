@@ -80,7 +80,10 @@ body {
     margin-right: 25px;
   }
 }
-
+.item__list {
+  min-height: 100px;
+  height: 100%;
+}
 .list__task {
   flex: 1 1 auto;
   display: flex;
@@ -94,12 +97,19 @@ body {
   padding-left: 26px;
   padding-bottom: 9px;
   text-align: left;
+  cursor: move;
   @media (max-width: 768px) {
     margin: 11px;
     margin-top: 11px;
     margin-bottom: 15px;
   }
 }
+//new
+.drop {
+  background: linear-gradient(#eee, transparent);
+  border-radius: 4px;
+}
+
 .list__task_do {
   border-left: 6px solid #f6b2b2;
 }
