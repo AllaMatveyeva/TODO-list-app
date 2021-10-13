@@ -1,4 +1,5 @@
 const list = document.querySelector(".item__list");
+//const li = document.querySelector("li");
 const buttonAdd = document.querySelector(".form__button_add");
 buttonAdd.onclick = addTask;
 const buttonShow = document.querySelector(".button__add");
@@ -6,6 +7,9 @@ const modalWindow = document.querySelector(".module-window");
 
 function createTask(task) {
   let { title, desc, user } = task;
+  if (desc.length > 100) {
+    desc = desc.substring(0, 99) + "...";
+  }
   let titleUpperCase = title[0].toUpperCase() + title.slice(1);
   const li = document.querySelector(".li-pattern").cloneNode(true);
   li.classList.remove("li-pattern");
@@ -18,7 +22,8 @@ function createTask(task) {
 
 function render(base, where, elem) {
   base.insertAdjacentElement(where, elem);
-  //new
+  //const li = document.querySelector("li");
+  //addButtons(li);
   const tascs = document.querySelectorAll(".list__task");
   for (let i = 0; i < tascs.length; i++) {
     tascs[i].draggable = true;
@@ -32,47 +37,44 @@ function render(base, where, elem) {
 }
 
 function addButtons(li) {
-  //new
-  //do
-
-  // const liDo = li.querySelectorAll(".list__task_do");
-  // const buttonRemoveTaskDo = liDo.querySelector(".img-delete");
-  // const buttonTransformTaskDo = li.querySelector(".img-trans");
-  // //progress
-  // const liProgress = li.querySelectorAll(".list__task_progress");
-  // const buttonRemoveTaskProgress = liProgress.querySelector(".img-delete");
-  // //done
-  // const liDone = li.querySelectorAll(".list__task_done");
-  // const buttonRemoveTaskDone = liDone.querySelector(".img-delete");
-  // buttonRemoveTaskDo.onclick = () => liDo.remove();
-  // buttonRemoveTaskProgress.onclick = () => liProgress.remove();
-  // buttonRemoveTaskDone.onclick = () => liDone.remove();
-  // buttonTransformTaskDo.onclick = () => {
-  //   li.getAttribute("contenteditable")
-  //     ? li.removeAttribute("contenteditable")
-  //     : li.setAttribute("contenteditable", true);
-  // };
-  //new
+  //const li = document.querySelector("li");
   const buttonRemoveTask = li.querySelector(".img-delete");
   const buttonTransformTask = li.querySelector(".img-trans");
-  buttonRemoveTask.onclick = () => li.remove();
-  //new
-  // buttonRemoveTask.onclick = () => {
-  //   if (buttonRemoveTask.closest("li").classList.contains("list__task_do")) {
-  //     document.querySelector(".list__task_do").remove();
-  //   } else if (
-  //     buttonRemoveTask.closest("li").classList.contains("list__task_progress")
-  //   ) {
-  //     document.querySelector(".list__task_progress").remove();
-  //   } else {
-  //     document.querySelector(".list__task_done").remove();
-  //   }
-  // };
-  //new
+  buttonRemoveTask.onclick = function () {
+    const moduleWindowQuestion = document.querySelector(
+      ".module-window-question"
+    );
+
+    const questionContainer = document.querySelector(".question-container");
+    const moduleWindowButtons = document.querySelector(
+      ".module-window-buttons"
+    );
+    const moduleWindowOk = document.querySelector(".module-window_ok");
+    const moduleWindowNo = document.querySelector(".module-window_no");
+    if (li.classList.contains("list__task_progress")) {
+      moduleWindowQuestion.style.display = "block";
+      questionContainer.addEventListener("click", function (ev) {
+        if (ev.target == moduleWindowOk) {
+          moduleWindowQuestion.style.display = "none";
+          li.remove();
+        }
+        if (ev.target == moduleWindowNo) {
+          moduleWindowQuestion.style.display = "none";
+        }
+      });
+    } else {
+      li.remove();
+    }
+  };
   buttonTransformTask.onclick = () => {
-    li.getAttribute("contenteditable")
-      ? li.removeAttribute("contenteditable")
-      : li.setAttribute("contenteditable", true);
+    let transform = li.getAttribute("contenteditable");
+    if (transform && transform !== "false") {
+      li.setAttribute("contenteditable", false);
+      li.style.backgroundColor = "#f0f5fa";
+    } else {
+      li.setAttribute("contenteditable", true);
+      li.style.backgroundColor = "#c9d8e7";
+    }
   };
 }
 
@@ -118,34 +120,38 @@ function deleteModalWindow() {
 const buttonTaskRemove = document.querySelector(".form__button_delete");
 buttonTaskRemove.onclick = deleteModalWindow;
 
-function deleteAllTascs() {
-  // getTascsForDelete();
-  const tascs = getTascsForDelete();
-  //const tascs = document.querySelectorAll(".list__task_do");
-  for (let prop of tascs) {
-    if (prop.classList.contains("li-pattern")) {
-      continue;
-    } else {
-      prop.remove();
-    }
-  }
-}
-function getTascsForDelete() {
-  let tascs;
-  if (buttonAllTascsRemove.classList.contains("button__delete_do")) {
-    tascs = document.querySelectorAll(".list__task_do");
-  }
-  if (buttonAllTascsRemove.classList.contains("button__delete_progress")) {
-    tascs = document.querySelectorAll(".list__task_progress");
-  }
-  if (buttonAllTascsRemove.classList.contains("button__delete_done")) {
-    tascs = document.querySelectorAll(".list__task_done");
-  }
-  return tascs;
-}
+//кнопка удалить все задачи
 
-const buttonAllTascsRemove = document.querySelector(".button__delete");
-buttonAllTascsRemove.onclick = deleteAllTascs;
+const buttonTascsDoRemove = document.querySelector(".button__delete_do");
+
+const buttonTascsProgressRemove = document.querySelector(
+  ".button_delete_progress"
+);
+const buttonTascsDoneRemove = document.querySelector(".button__delete_done");
+
+function deleteAllTascs(sel) {
+  const tascs = document.querySelectorAll(sel);
+  for (let tasc of tascs) {
+    if (tasc.classList.contains("list__task_do")) {
+      if (tasc.classList.contains("li-pattern")) {
+        continue;
+      } else {
+        tasc.remove();
+      }
+    }
+    tasc.remove();
+    // getCounter(sel);
+  }
+}
+buttonTascsDoRemove.onclick = function () {
+  deleteAllTascs(".list__task_do");
+};
+buttonTascsProgressRemove.onclick = function () {
+  deleteAllTascs(".list__task_progress");
+};
+buttonTascsDoneRemove.onclick = function () {
+  deleteAllTascs(".list__task_done");
+};
 
 //drag and drop
 
@@ -162,6 +168,7 @@ main.addEventListener("dragleave", (e) => {
   if (e.target.classList.contains("drop")) {
     e.target.classList.remove("drop");
   }
+  //getCounter(".list__task_do");
 });
 
 main.addEventListener("dragstart", (e) => {
@@ -248,9 +255,19 @@ main.addEventListener("drop", (e) => {
     const { name } = e.target.dataset;
 
     if (name === "item__list_do") {
+      todo.classList.add("list__task_do");
       if (todo.classList.contains("list__task_done")) {
-        todo.querySelector(".task__desc").remove();
+        //todo.classList.add("list__task_do");
+        todo.classList.remove("list__task_done");
+        if (todo.querySelector(".task__desc")) {
+          todo.querySelector(".task__desc").remove();
+        }
         todo.querySelector(".footer__user").remove();
+        // todo.classList.add("list__task");
+      }
+      if (todo.classList.contains("list__task_progress")) {
+        todo.classList.remove("list__task_progress");
+        // todo.classList.add("list__task_do");
       }
       const footers = document.querySelectorAll(".footer__transform");
       for (let footer of footers) {
@@ -259,109 +276,97 @@ main.addEventListener("drop", (e) => {
             "afterbegin",
             '<img class="img-trans" src="./img/transform.png"></img>'
           );
+          //const li = document.querySelector("li");
+
           footer.querySelector(".img-trans").draggable = false;
         }
       }
+      //todo.classList.add("list__task_do");
+      let lies = document.querySelectorAll(".list__task_do");
+      for (let li of lies) {
+        addButtons(li);
+      }
+      // addButtons(todo);
     }
 
     if (name === "item__list_done") {
+      todo.classList.add("list__task_progress");
+      todo.setAttribute("contenteditable", false);
+      todo.style.backgroundColor = "#f0f5fa";
       if (todo.classList.contains("list__task_progress")) {
         todo.classList.remove("list__task_progress");
       }
 
       if (todo.classList.contains("list__task_do")) {
         todo.classList.remove("list__task_do");
+        if (todo.querySelector(".img-trans")) {
+          todo.querySelector(".img-trans").remove();
+        }
       }
 
       todo.classList.add("list__task_done");
-      todo.querySelector(".img-trans").remove();
+      todo.setAttribute("contenteditable", false);
+      todo.style.backgroundColor = "#f0f5fa";
     } else if (name === "item__list_progress") {
+      todo.classList.add("list__task_progress");
       if (todo.classList.contains("list__task_do")) {
         todo.classList.remove("list__task_do");
+        todo.querySelector(".img-trans").remove();
       }
 
       if (todo.classList.contains("list__task_done")) {
         todo.classList.remove("list__task_done");
       }
-      todo.classList.add("list__task_progress");
-      todo.querySelector(".img-trans").remove();
+      todo.setAttribute("contenteditable", false);
+      todo.style.backgroundColor = "#f0f5fa";
     } else {
       todo.className = "list__task";
       todo.classList.add("list__task_do");
     }
   }
 });
-/*
 
-const tascs = document.querySelectorAll(".list__task_do");
+//создание счетчика
 
-for (let tasc of tascs) {
-  tasc.draggable = true;
+let targetDo = document.querySelector(".tascs-do");
+let targetProgress = document.querySelector(".tascs-progress");
+let targetDone = document.querySelector(".tascs-done");
+
+const config = {
+  childList: true,
+};
+
+// Колбэк-функция при срабатывании мутации
+const callback = function (mutationsList, observer) {
+  if ((mutationsList.target = "ul.item__list.tascs-do")) {
+    let tascsLi = document.querySelectorAll(".list__task_do");
+    renderCounter(".item-title_do", tascsLi, " to do");
+  }
+  if ((mutationsList.target = "ul.item__list.tascs-progress")) {
+    let tascsLi = document.querySelectorAll(".list__task_progress");
+    renderCounter(".item-title_progress", tascsLi, " in progress");
+  }
+  if ((mutationsList.target = "ul.item__list.tascs-done")) {
+    let tascsLi = document.querySelectorAll(".list__task_done");
+    renderCounter(".item-title_done", tascsLi, " done");
+  }
+};
+
+function renderCounter(title, arr, text) {
+  let numberTascs = arr.length;
+  for (let tascLi of arr) {
+    if (tascLi.classList.contains("li-pattern")) {
+      numberTascs = numberTascs - 1;
+    }
+  }
+  let counterText = document.querySelector(title);
+
+  counterText.innerHTML = numberTascs + text;
 }
+// Создаём экземпляр наблюдателя с указанной функцией колбэка
+const observer = new MutationObserver(callback);
 
-list.addEventListener("dragstart", (evt) => {
-  evt.target.classList.add("selected");
-  evt.dataTransfer.effectAllowed = "move";
-});
-
-list.addEventListener("dragend", (evt) => {
-  evt.target.classList.remove("selected");
-});
-
-//dragover
-const listProgress = document.querySelector(".item__list_progress");
-listProgress.addEventListener("dragover", (evt) => {
-  evt.preventDefault();
-  evt.dataTransfer.dropEffect = "move";
-
-  const activeElement = tascs.querySelector(".selected");
-  const currentElement = evt.target;
-  const isMoveable =
-    activeElement !== currentElement &&
-    currentElement.classList.contains(item__list_progress);
-  if (!isMoveable) {
-    return;
-  }
-  evt.target.append(listProgress);
-  // listProgress.append(activeElement);
-});
-
-const tascs = document.querySelectorAll(".list__task_do");
-
-for (let tasc of tascs) {
-  tasc.draggable = true;
-}
-list.addEventListener("onmousedown", (evt) => {
-  // (1) отследить нажатие
-
-  // (2) подготовить к перемещению:
-  // разместить поверх остального содержимого и в абсолютных координатах
-  evt.target.style.position = "absolute";
-  evt.target.style.zIndex = 1000;
-  // переместим в body, чтобы мяч был точно не внутри position:relative
-  document.body.append(evt.target);
-  // и установим абсолютно спозиционированный мяч под курсор
-
-  moveAt(evt.pageX, evt.pageY);
-
-  // передвинуть мяч под координаты курсора
-  // и сдвинуть на половину ширины/высоты для центрирования
-  function moveAt(pageX, pageY) {
-    evt.target.style.left = pageX - evt.target.offsetWidth / 2 + "px";
-    evt.target.style.top = pageY - evt.target.offsetHeight / 2 + "px";
-  }
-
-  function onMouseMove(evt) {
-    moveAt(evt.pageX, evt.pageY);
-  }
-
-  // (3) перемещать по экрану
-  document.addEventListener("mousemove", onMouseMove);
-
-  // (4) положить мяч, удалить более ненужные обработчики событий
-  list.addEventListener("onmousedown", (evt) => {
-    //evt.preventDefault();
-    document.removeEventListener("mousemove", onMouseMove);
-    evt.target.onmouseup = null;
-  });
-});*/
+// Начинаем наблюдение за настроенными изменениями целевого элемента
+observer.observe(targetDo, config);
+observer.observe(targetProgress, config);
+observer.observe(targetDone, config);

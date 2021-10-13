@@ -18,13 +18,13 @@
     <section class="main">
       <div class="container">
         <div class="main__row-title">
-          <h1 class="item-title item-title_left">4 to do</h1>
-          <h1 class="item-title">3/5 in progress</h1>
-          <h1 class="item-title item-title_right">2 done</h1>
+          <h1 class="item-title item-title_do">to do</h1>
+          <h1 class="item-title item-title_progress"> in progress</h1>
+          <h1 class="item-title item-title_done"> done</h1>
         </div>
         <div class="main__row-block">
           <div class="row-block__item">
-            <ul class="item__list" data-name="item__list_do" >
+            <ul class="item__list tascs-do" data-name="item__list_do" >
                           </ul>
             <div class="buttons__add-delete">
               <button class="button__add-delete button__add">Add task</button>
@@ -32,7 +32,7 @@
             </div>
           </div>
           <div class="row-block__item">
-            <ul class="item__list" data-name="item__list_progress">
+            <ul class="item__list tascs-progress" data-name="item__list_progress">
               <!-- <li class="list__task list__task_progress">
                 <h2 class="task__title task__title_progress">Title</h2>
                 <div class="task__desc task__desc_progress">description</div>
@@ -60,7 +60,7 @@
             </div>
           </div>
           <div class="row-block__item">
-            <ul class="item__list" data-name="item__list_done">
+            <ul class="item__list tascs-done" data-name="item__list_done">
               <!-- <li class="list__task list__task_done ">
                 <h2 class="task__title task__title_done">Title</h2>
                 <div class="task__desc task__desc_done">description</div>
@@ -93,20 +93,20 @@
       </div>
       <div class="module-window">
       <div class="form">
-        <div class="form__text">
-          <div class="form__task form__task_title">
-        <label for="Title">Title</label>
-<input type="text" id="Title" name="title-task"   tabindex = "0" class="form__input form__input_text">
-</div>
-<div class=" form__task form__task_description">
-<label for="Description">description</label>
-<textarea id="Description" name="description-task"   tabindex = "0"  class="form__input form__input_description"></textarea>
-</div>
-<div class="form__task form__task_user">
-<label for="User">user</label>
-<input type="text" id="User" name="user-task"  tabindex = "0"  class="form__input form__input_user">
-</div>
-</div>
+         <div class="form__text">
+           <div class="form__task form__task_title">
+             <label for="Title">Title</label>
+             <input type="text" id="Title" name="title-task"   tabindex = "0" class="form__input form__input_text">
+           </div>
+           <div class=" form__task form__task_description">
+             <label for="Description">description</label>
+             <textarea id="Description" name="description-task"   tabindex = "0"  class="form__input form__input_description"></textarea>
+            </div>
+           <div class="form__task form__task_user">
+              <label for="User">user</label>
+              <input type="text" id="User" name="user-task"  tabindex = "0"  class="form__input form__input_user">
+            </div>
+    </div>
 <div class="form__buttons">
   <button class="form__button form__button_add">Add task</button>
   <button class="form__button form__button_delete">Delete task</button>
@@ -114,6 +114,17 @@
       </div>
       <div class="wrapper-form"></div> 
     </div>
+    <div class="module-window-question">
+      <div class="question-container">
+<p class="question">Are you sure?</p>
+<div class="module-window-buttons">
+<button class="module-window-button module-window_ok">Ok</button>
+<button class="module-window-button module-window_no">No</button>
+</div>
+</div>
+<div class="wrapper-form"></div> 
+    </div>
+    
     </section>
     <div class="pattern_container">
       <li class="list__task list__task_do li-pattern">
