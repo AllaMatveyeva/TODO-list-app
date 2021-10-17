@@ -1,5 +1,4 @@
 const list = document.querySelector(".item__list");
-//const li = document.querySelector("li");
 const buttonAdd = document.querySelector(".form__button_add");
 buttonAdd.onclick = addTask;
 const buttonShow = document.querySelector(".button__add");
@@ -10,6 +9,7 @@ function createTask(task) {
   if (desc.length > 100) {
     desc = desc.substring(0, 99) + "...";
   }
+
   let titleUpperCase = title[0].toUpperCase() + title.slice(1);
   const li = document.querySelector(".li-pattern").cloneNode(true);
   li.classList.remove("li-pattern");
@@ -22,14 +22,14 @@ function createTask(task) {
 
 function render(base, where, elem) {
   base.insertAdjacentElement(where, elem);
-  //const li = document.querySelector("li");
-  //addButtons(li);
+
   const tascs = document.querySelectorAll(".list__task");
   for (let i = 0; i < tascs.length; i++) {
     tascs[i].draggable = true;
     let value = i + 1;
     tascs[i].setAttribute("data-id", value);
   }
+
   const imges = document.querySelectorAll("img");
   for (let img of imges) {
     img.draggable = false;
@@ -37,18 +37,37 @@ function render(base, where, elem) {
 }
 
 function addButtons(li) {
-  //const li = document.querySelector("li");
   const buttonRemoveTask = li.querySelector(".img-delete");
   const buttonTransformTask = li.querySelector(".img-trans");
+
+  let parent = buttonTransformTask.closest("li");
+  if (parent) {
+    if (
+      parent.classList.contains("list__task_done") ||
+      parent.classList.contains("list__task_progress")
+    ) {
+      buttonTransformTask.remove();
+    }
+  }
+
+  buttonTransformTask.onclick = function () {
+    let transform = li.getAttribute("contenteditable");
+    if (transform && transform !== "false") {
+      li.setAttribute("contenteditable", false);
+      li.style.backgroundColor = "#f0f5fa";
+    } else {
+      li.setAttribute("contenteditable", true);
+      li.style.backgroundColor = "#c9d8e7";
+    }
+  };
+
   buttonRemoveTask.onclick = function () {
     const moduleWindowQuestion = document.querySelector(
       ".module-window-question"
     );
 
     const questionContainer = document.querySelector(".question-container");
-    const moduleWindowButtons = document.querySelector(
-      ".module-window-buttons"
-    );
+
     const moduleWindowOk = document.querySelector(".module-window_ok");
     const moduleWindowNo = document.querySelector(".module-window_no");
     if (li.classList.contains("list__task_progress")) {
@@ -66,16 +85,6 @@ function addButtons(li) {
       li.remove();
     }
   };
-  buttonTransformTask.onclick = () => {
-    let transform = li.getAttribute("contenteditable");
-    if (transform && transform !== "false") {
-      li.setAttribute("contenteditable", false);
-      li.style.backgroundColor = "#f0f5fa";
-    } else {
-      li.setAttribute("contenteditable", true);
-      li.style.backgroundColor = "#c9d8e7";
-    }
-  };
 }
 
 function makeObjTasc() {
@@ -91,7 +100,7 @@ function makeObjTasc() {
   let objTask = {};
   objTask.title = titleInput.value;
   objTask.desc = descInput.value;
-  objTask.user = userInput.value + "/" + dateTask;
+  objTask.user = userInput.value + " / " + dateTask;
   titleInput.value = null;
   descInput.value = null;
   userInput.value = null;
@@ -140,7 +149,6 @@ function deleteAllTascs(sel) {
       }
     }
     tasc.remove();
-    // getCounter(sel);
   }
 }
 buttonTascsDoRemove.onclick = function () {
@@ -168,7 +176,6 @@ main.addEventListener("dragleave", (e) => {
   if (e.target.classList.contains("drop")) {
     e.target.classList.remove("drop");
   }
-  //getCounter(".list__task_do");
 });
 
 main.addEventListener("dragstart", (e) => {
@@ -201,18 +208,13 @@ main.addEventListener("drop", (e) => {
     `[data-id="${e.dataTransfer.getData("text/plain")}"]`
   );
   // прекращаем выполнение кода, если задача и элемент - одно и тоже
+
   if (elemBelow === todo) {
     return;
   }
 
   // если элементом является параграф или кнопка, значит, нам нужен их родительский элемент
-  // if (
-  //   elemBelow.tagName === "DIV" ||
-  //   elemBelow.tagName === "BUTTON" ||
-  //   elemBelow.tagName === "IMG"
-  // ) {
-  //   elemBelow = elemBelow.closest("li");
-  // }
+
   // на всякий случай еще раз проверяем, что имеем дело с задачей
   if (elemBelow.classList.contains("list__task")) {
     // нам нужно понять, куда помещать перетаскиваемый элемент:
@@ -244,7 +246,29 @@ main.addEventListener("drop", (e) => {
   if (e.target.classList.contains("item__list")) {
     // просто добавляем в нее перетаскиваемый элемент
     // это приведет к автоматическому удалению элемента из "родной" колонки
+
     e.target.append(todo);
+    //new
+    function getLimitTascs() {
+      const tascsProgress = document.querySelectorAll(".list__task_progress");
+      const listDo = document.querySelector(".tascs-do");
+      if (tascsProgress.length + 1 > 5) {
+        const moduleWindowBan = document.querySelector(".module-window-ban");
+        moduleWindowBan.style.display = "block";
+        const moduleWindowBanOk = document.querySelector(
+          ".module-window-ban_ok"
+        );
+        moduleWindowBanOk.onclick = () => {
+          let y = todo;
+          todo.remove();
+          listDo.append(y);
+          y.classList.add("list__task_do");
+          y.classList.remove("list__task_progress");
+
+          moduleWindowBan.style.display = "none";
+        };
+      }
+    }
 
     // удаляем индикатор зоны для "бросания"
     if (e.target.classList.contains("drop")) {
@@ -257,17 +281,14 @@ main.addEventListener("drop", (e) => {
     if (name === "item__list_do") {
       todo.classList.add("list__task_do");
       if (todo.classList.contains("list__task_done")) {
-        //todo.classList.add("list__task_do");
         todo.classList.remove("list__task_done");
         if (todo.querySelector(".task__desc")) {
           todo.querySelector(".task__desc").remove();
         }
         todo.querySelector(".footer__user").remove();
-        // todo.classList.add("list__task");
       }
       if (todo.classList.contains("list__task_progress")) {
         todo.classList.remove("list__task_progress");
-        // todo.classList.add("list__task_do");
       }
       const footers = document.querySelectorAll(".footer__transform");
       for (let footer of footers) {
@@ -276,17 +297,15 @@ main.addEventListener("drop", (e) => {
             "afterbegin",
             '<img class="img-trans" src="./img/transform.png"></img>'
           );
-          //const li = document.querySelector("li");
 
           footer.querySelector(".img-trans").draggable = false;
         }
       }
-      //todo.classList.add("list__task_do");
+
       let lies = document.querySelectorAll(".list__task_do");
       for (let li of lies) {
         addButtons(li);
       }
-      // addButtons(todo);
     }
 
     if (name === "item__list_done") {
@@ -308,7 +327,9 @@ main.addEventListener("drop", (e) => {
       todo.setAttribute("contenteditable", false);
       todo.style.backgroundColor = "#f0f5fa";
     } else if (name === "item__list_progress") {
+      getLimitTascs();
       todo.classList.add("list__task_progress");
+
       if (todo.classList.contains("list__task_do")) {
         todo.classList.remove("list__task_do");
         todo.querySelector(".img-trans").remove();
@@ -334,6 +355,9 @@ let targetDone = document.querySelector(".tascs-done");
 
 const config = {
   childList: true,
+  attributes: true,
+  characterData: true,
+  subtree: true,
 };
 
 // Колбэк-функция при срабатывании мутации
@@ -350,6 +374,8 @@ const callback = function (mutationsList, observer) {
     let tascsLi = document.querySelectorAll(".list__task_done");
     renderCounter(".item-title_done", tascsLi, " done");
   }
+
+  createlocal();
 };
 
 function renderCounter(title, arr, text) {
@@ -370,3 +396,35 @@ const observer = new MutationObserver(callback);
 observer.observe(targetDo, config);
 observer.observe(targetProgress, config);
 observer.observe(targetDone, config);
+
+let toDo;
+let inProgress;
+let toDone;
+const listDo = document.querySelector(".tascs-do");
+const listProgress = document.querySelector(".tascs-progress");
+const listDone = document.querySelector(".tascs-done");
+
+function createlocal() {
+  toDo = listDo.innerHTML;
+  localStorage.setItem("toDo", toDo);
+
+  inProgress = listProgress.innerHTML;
+  localStorage.setItem("inProgress", inProgress);
+
+  toDone = listDone.innerHTML;
+  localStorage.setItem("toDone", toDone);
+  const lies = document.querySelectorAll(".list__task");
+  for (let li of lies) {
+    addButtons(li);
+  }
+}
+
+if (localStorage.getItem("toDo")) {
+  listDo.innerHTML = localStorage.getItem("toDo");
+}
+if (localStorage.getItem("inProgress")) {
+  listProgress.innerHTML = localStorage.getItem("inProgress");
+}
+if (localStorage.getItem("toDone")) {
+  listDone.innerHTML = localStorage.getItem("toDone");
+}
