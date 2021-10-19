@@ -4,16 +4,52 @@ import { makeLocalStorage } from "./localStorage.js";
 
 const list = document.querySelector(".item__list");
 const buttonAdd = document.querySelector(".form__button_add");
-buttonAdd.onclick = addTask;
 const buttonShow = document.querySelector(".button__add");
 const modalWindow = document.querySelector(".module-window");
+
+buttonAdd.onclick = addTask;
+
+function addTask() {
+  let objTask = makeObjTasc();
+  createTask(objTask);
+}
+
+function makeObjTasc() {
+  let now = new Date();
+  let date = now.getDate();
+  if (date < 10) {
+    date = "0" + date;
+  }
+  let dateTask = date + "." + (now.getMonth() + 1) + "." + now.getFullYear();
+  const titleInput = document.querySelector(".form__input_text");
+  const descInput = document.querySelector(".form__input_description");
+  const userInput = document.querySelector(".form__input_user");
+  let objTask = {};
+  objTask.title = titleInput.value;
+  objTask.desc = descInput.value;
+  objTask.user = userInput.value;
+  objTask.date = dateTask;
+  titleInput.value = null;
+  descInput.value = null;
+  userInput.value = null;
+  let modalWindow = showModalWindow();
+  modalWindow.style.display = "none";
+  return objTask;
+}
+
+function showModalWindow() {
+  modalWindow.style.display = "block";
+  return modalWindow;
+}
 
 function createTask(task) {
   let { title, desc, user, date } = task;
   let titleUpperCase = title[0].toUpperCase() + title.slice(1);
+
   if (titleUpperCase.length > 25) {
     titleUpperCase = titleUpperCase.substring(0, 24) + "...";
   }
+
   if (desc.length > 100) {
     desc = desc.substring(0, 99) + "...";
   }
@@ -31,6 +67,7 @@ function createTask(task) {
   if (user.length > 25) {
     user = user.substring(0, 24) + "...";
   }
+
   const li = document.querySelector(".li-pattern").cloneNode(true);
   li.classList.remove("li-pattern");
   li.querySelector(".task__title").textContent = titleUpperCase;
@@ -71,6 +108,7 @@ export function addButtons(li) {
       }
     }
   }
+
   //ограничения на действия при редактировании
 
   function checkString(sel) {
@@ -178,39 +216,6 @@ export function addButtons(li) {
   };
 }
 
-function makeObjTasc() {
-  let now = new Date();
-  let date = now.getDate();
-  if (date < 10) {
-    date = "0" + date;
-  }
-  let dateTask = date + "." + (now.getMonth() + 1) + "." + now.getFullYear();
-  const titleInput = document.querySelector(".form__input_text");
-  const descInput = document.querySelector(".form__input_description");
-  const userInput = document.querySelector(".form__input_user");
-  let objTask = {};
-  objTask.title = titleInput.value;
-  objTask.desc = descInput.value;
-  objTask.user = userInput.value;
-  objTask.date = dateTask;
-  titleInput.value = null;
-  descInput.value = null;
-  userInput.value = null;
-  let modalWindow = showModalWindow();
-  modalWindow.style.display = "none";
-  return objTask;
-}
-
-function addTask() {
-  let objTask = makeObjTasc();
-  createTask(objTask);
-}
-
-function showModalWindow() {
-  modalWindow.style.display = "block";
-  return modalWindow;
-}
-
 buttonShow.onclick = showModalWindow;
 
 function deleteModalWindow() {
@@ -243,12 +248,15 @@ function deleteAllTascs(sel) {
     tasc.remove();
   }
 }
+
 buttonTascsDoRemove.onclick = function () {
   deleteAllTascs(".list__task_do");
 };
+
 buttonTascsProgressRemove.onclick = function () {
   deleteAllTascs(".list__task_progress");
 };
+
 buttonTascsDoneRemove.onclick = function () {
   deleteAllTascs(".list__task_done");
 };

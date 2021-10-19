@@ -75,7 +75,7 @@ export function makeDragDrop() {
         }
       }
 
-      elemBelow.parentElement.insertBefore(todo, elemBelow);
+      elemBelow.before(todo);
       // рокировка элементов может происходить в разных колонках
       // необходимо убедиться, что задачи будут визуально идентичными
       todo.className = elemBelow.className;
@@ -87,7 +87,7 @@ export function makeDragDrop() {
       // это приведет к автоматическому удалению элемента из "родной" колонки
 
       e.target.append(todo);
-      //new
+
       function getLimitTascs() {
         const tascsProgress = document.querySelectorAll(".list__task_progress");
         const listDo = document.querySelector(".tascs-do");
@@ -97,6 +97,7 @@ export function makeDragDrop() {
           const moduleWindowBanOk = document.querySelector(
             ".module-window-ban_ok"
           );
+
           moduleWindowBanOk.onclick = () => {
             let y = todo;
             todo.remove();
